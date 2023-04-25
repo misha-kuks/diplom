@@ -75,7 +75,7 @@ disk {
     slot = 0
     size = "10G"
     type = "virtio"
-    storage = var.storage
+    storage = "vm-system"
 }
 
 disk {

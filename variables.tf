@@ -28,5 +28,5 @@ variable "storage" {
 }
 
 variable "ssh_keys" {
-  default = "ВСТАВИТЬ КЛЮЧ"
+  default = "SSH KEY"
 }

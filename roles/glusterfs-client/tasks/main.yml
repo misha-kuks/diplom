@@ -16,7 +16,7 @@
 - name: Mount Gluster volume
   mount:
     fstype: glusterfs
-    src: back1:/volume1
+    src: back1:/web
     path: /srv/www/
     opts: "defaults,_netdev"
     state: present

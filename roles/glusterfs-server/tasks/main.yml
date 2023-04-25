@@ -36,13 +36,18 @@
 
 - name: "Create volume1 glusterfs"
   shell: > 
-    gluster volume create volume1 replica 2 back1:/gluster-storage01 back2:/gluster-storage01 force
+    gluster volume create web replica 2 back1:/gluster-storage01 back2:/gluster-storage01 force &&
+    gluster volume start web &&
+    gluster volume set web network.ping-timeout 5 &&
+    gluster volume set web cluster.quorum-type fixed &&
+    gluster volume set web cluster.quorum-count 1 &&
+    gluster volume set web performance.quick-read on 
   when: ansible_facts['hostname'] == "back1"
   run_once: true
   ignore_errors: true
   
-- name: Start volume1
-  shell: gluster volume start volume1
-  when: ansible_facts['hostname'] == "back1"
-  ignore_errors: true
+# - name: Start volume1
+#   shell: gluster volume start volume1
+#   when: ansible_facts['hostname'] == "back1"
+#   ignore_errors: true
   

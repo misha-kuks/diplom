@@ -4,8 +4,20 @@
 - Кластер backend: 2 виртуальных машины для бэкэнда, на которых установлен GlusterFS.
 - Кластер баз данных: 3 виртуальных машины с Mariadb-server, объединенных в кластер Galera. 
 
+# Почему я выбрал PVE? Почти все демостэнды мы в нашей компании разворачиваем на PVE. Максимально приближенная к реальным железным условиям система реализации. Хотелось попробовать keepalived в качестве отказоустойчивости на сетевом уровне.
 
-## Create terraform.tfvars file which include:
+## Общая схема работы:
+
+![image](screens/mysql-cluster.png)
+
+## Подробные сведения о работе того или иного компонента:
+
+- [GlusterFS](https://github.com/misha-kuks/diplom/blob/main/roles/glusterfs-server/README.md) ![](https://github.com/misha-kuks/diplom/blob/main/roles/glusterfs-server/README.md)
+- [Galera](https://github.com/misha-kuks/diplom/blob/main/roles/mysql/README.md) ![](https://github.com/misha-kuks/diplom/blob/main/roles/mysql/README.md) 
+- [HAproxy](https://github.com/misha-kuks/diplom/blob/main/roles/haproxy/README.md) ![](https://github.com/misha-kuks/diplom/blob/main/roles/haproxy/README.md)
+- [Nginx](https://github.com/misha-kuks/diplom/blob/main/roles/nginx/README.md) ![](https://github.com/misha-kuks/diplom/blob/main/roles/nginx/README.md)
+
+## Создайте terraform.tfvars файл содержащий следующие переменные:
 - pve_ip_address = "IPv4" 
 - pm_user = "root@pam" 
 - pm_password = "PASS" 
@@ -13,35 +25,12 @@
 - template = "ubuntu-focal64 or you template" 
 - storage = "YOUR STORAGE"
 
-## To start deploy run:
+## Для запуска развертываения запустите:
 1. terraform apply
 2. ansible-playbook site.yml
 
-## Scheme:
 
-![image](screens/mysql-cluster.png)
 
-## Galera cluster check status from db1:
-
-- show status like 'wsrep_cluster_status';
-- show status like 'wsrep_cluster_size';
-- show status like 'wsrep_local_state_comment';
-
-![image](screens/wsrep_db1.png)
-
-### Check after crash 1 VM:
-
-- show status like 'wsrep_cluster_status';
-- show status like 'wsrep_cluster_size';
-- show status like 'wsrep_local_state_comment';
-
-![image](screens/wsrep_db2_after_crash.png)
-
-- visit http://demosite.local
-
-![image](screens/demo_after_dbcrash.png)
-
-- All work fine!!!
 
 ## Check keepalived on haproxy2 after down haproxy1:
 

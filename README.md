@@ -8,7 +8,7 @@
 
 ## Общая схема работы:
 
-![image](screens/mysql-cluster.png)
+![image](screens/scheme.png)
 
 ## Подробные сведения о работе того или иного компонента:
 
